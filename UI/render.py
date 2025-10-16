@@ -214,14 +214,21 @@ def render_game_info(mh, font_nho, tb, trai, phai, cao, le, ban_ai, path, mode, 
         "ESC - Thoát"
     ], col_width)
     
-    # Thông tin trạng thái - full width ở dưới cùng
-    status_y = cao - 280
+    # Thông tin trạng thái - full width ở dưới cùng (di chuyển lên trên)
+    status_y = cao - 380  # Tăng từ 280 lên 340 để di chuyển lên trên
     render_status_info(mh, font_nho, panel_x + 20, status_y, mode, step, path, ban_ai, panel_w - 40)
     
     # History section - ngay dưới status
     if history:
         history_y = status_y + 105
         render_history_section(mh, font_nho, panel_x + 20, history_y, history, panel_w - 40)
+        
+        # Nút xem đồ thị - dưới history
+        chart_button_y = history_y + min(len(history) * 26 + 42, 160) + 10
+        chart_button_rect = render_chart_button(mh, font_nho, panel_x + 20, chart_button_y, panel_w - 40)
+        return chart_button_rect
+    
+    return None
 
 def render_algorithm_section(mh, font_nho, x, y, title, items):
     # Tiêu đề section
@@ -334,3 +341,35 @@ def render_history_section(mh, font_nho, x, y, history, width=270):
         
         # Indicator màu cho status
         pygame.draw.circle(mh, status_color, (x + width - 15, y_offset + 6), 4)
+
+def render_chart_button(mh, font_nho, x, y, width):
+    """Vẽ nút xem đồ thị và return rect để detect click"""
+    button_height = 50
+    button_rect = pygame.Rect(x, y, width, button_height)
+    
+    # Background với gradient effect (đơn giản hóa)
+    pygame.draw.rect(mh, (70, 150, 220), button_rect, border_radius=10)
+    pygame.draw.rect(mh, (40, 120, 200), button_rect, 3, border_radius=10)
+    
+    # Icon (đồ thị đơn giản)
+    icon_x = x + 15
+    icon_y = y + button_height // 2
+    # Vẽ 3 cột nhỏ
+    for i in range(3):
+        col_height = 15 + i * 5
+        col_rect = pygame.Rect(icon_x + i * 12, icon_y + 10 - col_height, 8, col_height)
+        pygame.draw.rect(mh, trang, col_rect, border_radius=2)
+    
+    # Text
+    font_button = pygame.font.SysFont("Arial", 14, bold=True)
+    text = font_button.render("XEM ĐỒ THỊ THỐNG KÊ", True, trang)
+    text_rect = text.get_rect(center=(x + width//2 + 15, y + button_height//2))
+    mh.blit(text, text_rect)
+    
+    # Hint text
+    font_hint = pygame.font.SysFont("Arial", 9)
+    hint = font_hint.render("Click để xem biểu đồ so sánh", True, (230, 240, 255))
+    hint_rect = hint.get_rect(center=(x + width//2 + 15, y + button_height//2 + 13))
+    mh.blit(hint, hint_rect)
+    
+    return button_rect

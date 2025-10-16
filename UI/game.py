@@ -26,6 +26,7 @@ from Alg.ac3 import ac3_target
 from Alg.utils import tao_mau, n
 from UI.render import *
 from UI.render import rong, cao, sz, le, nen, den
+from UI.chart import show_algorithm_chart
 
 def run_algorithm_with_tracking(algorithm_func, ban_mau, alg_name, history, current_board_hash, *args):
     """
@@ -88,6 +89,8 @@ def main():
     # Vị trí bàn cờ - căn chỉnh lại
     trai = (le, le+60)  # Bàn AI
     phai = (le+sz*n+kc, le+60)  # Bàn target
+    
+    chart_button_rect = None  # Để lưu vị trí nút đồ thị
     
     chay = True
     while chay:
@@ -223,6 +226,12 @@ def main():
                         ban_ai = path[0].copy()
                 elif sk.key==pygame.K_a:
                     anim = not anim
+            elif sk.type == pygame.MOUSEBUTTONDOWN:
+                # Xử lý click vào nút đồ thị
+                if chart_button_rect and chart_button_rect.collidepoint(sk.pos):
+                    if history:
+                        # Mở cửa sổ đồ thị
+                        show_algorithm_chart(history)
                     
         # Animation
         if anim and path and step < len(path)-1:
@@ -245,8 +254,8 @@ def main():
         render_board_info(mh, font_nho, trai[0], trai[1]+sz*n+10, ban_ai, f"Bước {step}/{len(path)-1 if path else 0}")
         render_board_info(mh, font_nho, phai[0], phai[1]+sz*n+10, ban_mau, "Target Pattern")
         
-        # Panel điều khiển
-        render_game_info(mh, font_nho, None, trai, phai, cao, le, ban_ai, path, mode, step, history)
+        # Panel điều khiển - lưu chart_button_rect
+        chart_button_rect = render_game_info(mh, font_nho, None, trai, phai, cao, le, ban_ai, path, mode, step, history)
         
         pygame.display.flip()
         dh.tick(fps)

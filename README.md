@@ -50,6 +50,7 @@
 - Hiển thị thời gian chạy (ms/s)
 - Trạng thái: Success/Partial/Failed/Error
 - Indicator màu cho mỗi trạng thái
+- Đồ thị thống kê: Click nút "XEM ĐỒ THỊ THỐNG KÊ" để xem biểu đồ so sánh các thuật toán
 
 ### Điều khiển
 
@@ -74,6 +75,7 @@
 
 - Python 3.13+
 - Pygame 2.6.1+
+- Matplotlib 3.10+ (cho đồ thị thống kê)
 
 ### Các bước cài đặt
 
@@ -87,7 +89,7 @@ cd Game-8Rocks
 2. **Cài đặt dependencies**
 
 ```bash
-pip install pygame
+pip install pygame matplotlib
 ```
 
 3. **Chạy game**
@@ -142,6 +144,7 @@ python3.13 UI/game.py
 | **1-9** | Điều chỉnh tốc độ (1=chậm, 9=nhanh) |
 | **0** | Tốc độ cực nhanh |
 | **ESC** | Thoát game |
+| **Click nút** | Xem đồ thị thống kê thuật toán |
 
 ### Workflow
 
@@ -150,7 +153,49 @@ python3.13 UI/game.py
 3. **Xem kết quả** → Thuật toán chạy và hiển thị path
 4. **Step through** → Nhấn N để xem từng bước
 5. **So sánh** → Chạy nhiều thuật toán và xem history
-6. **Reset** → Nhấn SPACE để tạo bàn mới
+6. **Xem đồ thị** → Click nút "XEM ĐỒ THỊ THỐNG KÊ" để so sánh hiệu suất
+7. **Reset** → Nhấn SPACE để tạo bàn mới
+
+---
+
+## Đồ Thị Thống Kê
+
+Sau khi chạy một hoặc nhiều thuật toán, bạn có thể xem đồ thị thống kê bằng cách click vào nút **"XEM ĐỒ THỊ THỐNG KÊ"** ở cuối panel bên phải.
+
+### Các loại biểu đồ
+
+#### 1. Biểu đồ so sánh thời gian
+- So sánh thời gian chạy trung bình của các thuật toán
+- Phân loại theo mức độ thành công:
+  - Xanh dương: Tìm thấy mục tiêu (≥80% thành công)
+  - Cam: Tìm một tập hoặc trạng thái gần đích (30-80% thành công)
+  - Đỏ: Không tìm thấy mục tiêu (<30% thành công)
+
+#### 2. Biểu đồ số bước thực hiện
+- Hiển thị số bước min, max, và trung bình
+- So sánh độ dài đường đi của các thuật toán
+
+#### 3. Biểu đồ tỷ lệ thành công
+- Thống kê phần trăm các trạng thái:
+  - Thành công (Success)
+  - Một phần (Partial)
+  - Thất bại (Failed)
+  - Lỗi (Error)
+
+#### 4. Bảng thống kê chi tiết
+- Số lần chạy mỗi thuật toán
+- Tỷ lệ thành công
+- Thời gian trung bình
+- Số bước trung bình
+
+### Cách sử dụng
+
+1. Chạy một hoặc nhiều thuật toán trên cùng một bàn cờ
+2. Xem lịch sử trong panel "LỊCH SỬ THUẬT TOÁN"
+3. Click nút "XEM ĐỒ THỊ THỐNG KÊ"
+4. Cửa sổ đồ thị sẽ hiển thị với 4 biểu đồ
+
+**Lưu ý**: Cần chạy ít nhất một thuật toán trước khi xem đồ thị!
 
 ---
 
@@ -294,7 +339,8 @@ Game-8Rocks/
 ├── UI/                           # Thư mục giao diện
 │   ├── __init__.py
 │   ├── render.py                 # Rendering functions
-│   └── game.py                   # Main game loop
+│   ├── game.py                   # Main game loop
+│   └── chart.py                  # Chart visualization
 │
 ├── README.md                     # Documentation
 └── requirements.txt              # Dependencies
