@@ -1,364 +1,529 @@
-# Game 8 Quân Xe - AI Search Algorithms Visualization
+# BÀI TOÁN 8 QUÂN XE (Eight Rooks Problem)
 
-**Một ứng dụng trực quan hóa 17 thuật toán AI tìm kiếm cho bài toán 8 quân xe**
-
----
-
-## Mục lục
-
-- [Giới thiệu](#giới-thiệu)
-- [Tính năng](#tính-năng)
-- [Cài đặt](#cài-đặt)
-- [Sử dụng](#sử-dụng)
-- [Thuật toán](#thuật-toán)
-- [Cấu trúc dự án](#cấu-trúc-dự-án)
-- [Yêu cầu hệ thống](#yêu-cầu-hệ-thống)
-
----
+Dự án giải quyết bài toán 8 quân xe bằng các thuật toán tìm kiếm AI.
 
 ## Giới thiệu
+**Sinh viên thực hiện:** [Nguyễn Lê Đức Tuệ]  
+**MSSV:** [23110165]  
+**Lớp:** [05]  
+**Giảng viên hướng dẫn:** TS. Phan Thị Huyền Trang
 
-**Game 8 Quân Xe** là một ứng dụng giáo dục được phát triển bằng Python và Pygame, giúp trực quan hóa và so sánh **17 thuật toán AI** khác nhau trong việc giải quyết bài toán 8 quân xe (8-Rooks problem).
 
-### Bài toán 8 Quân Xe
+Bài toán 8 quân xe yêu cầu đặt 8 quân xe trên bàn cờ 8×8 sao cho không có 2 quân xe nào cùng hàng hoặc cùng cột.
 
-Đặt 8 quân xe trên bàn cờ 8x8 sao cho không có 2 quân xe nào cùng hàng hoặc cùng cột. Khác với bài toán 8 quân hậu, quân xe **không kiểm tra đường chéo**.
-
-### Mục đích
-
-- Học tập: Hiểu rõ cách hoạt động của các thuật toán AI
-- So sánh: Đánh giá hiệu suất giữa các thuật toán
-- Trực quan hóa: Xem từng bước thực thi của thuật toán
-- Thực hành: Áp dụng lý thuyết vào thực tế
-
----
-
-## Tính năng
-
-### Giao diện
-
-- Giao diện đồ họa Pygame mượt mà, hiện đại
-- Hiển thị 2 bàn cờ: Bàn AI và Bàn Target
-- 17 thuật toán được phân nhóm theo loại
-- Màu sắc phân biệt rõ ràng cho từng nhóm
-- Panel điều khiển 2 cột rộng rãi
-
-### Visualization
-
-- Xem từng bước thực thi thuật toán
-- History tracking: Lịch sử các lần chạy
-- Hiển thị thời gian chạy (ms/s)
-- Trạng thái: Success/Partial/Failed/Error
-- Indicator màu cho mỗi trạng thái
-- Đồ thị thống kê: Click nút "XEM ĐỒ THỊ THỐNG KÊ" để xem biểu đồ so sánh các thuật toán
-
-### Điều khiển
-
-- Step-by-step: Xem từng bước (phím N)
-- Auto-run: Chạy tự động (phím A)
-- Reset: Tạo bàn cờ mới (SPACE)
-- Speed control: Điều chỉnh tốc độ (1-9, 0)
-- Clear: Xóa bàn AI (phím C)
-
-### Performance Tracking
-
-- Thời gian chạy chính xác (perf_counter)
-- Số bước thực thi
-- Kết quả chi tiết
-- Lịch sử 5-6 lần chạy gần nhất
-
----
+**Mục tiêu dự án:**
+- Triển khai các thuật toán tìm kiếm AI
+- So sánh hiệu suất của các thuật toán
+- Trực quan hóa quá trình tìm kiếm
 
 ## Cài đặt
 
-### Yêu cầu
-
-- Python 3.13+
-- Pygame 2.6.1+
-- Matplotlib 3.10+ (cho đồ thị thống kê)
-
-### Các bước cài đặt
-
-1. **Clone repository**
-
 ```bash
-git clone https://github.com/yourusername/Game-8Rocks.git
+# Clone repository
+git clone https://github.com/tuenguyenprograming1003/Game-8Rocks.git
 cd Game-8Rocks
+
+# Cài đặt dependencies
+pip install -r requirements.txt
 ```
-
-2. **Cài đặt dependencies**
-
-```bash
-pip install pygame matplotlib
-```
-
-3. **Chạy game**
-
-```bash
-python UI/game.py
-```
-
-hoặc với Python 3.13:
-
-```bash
-python3.13 UI/game.py
-```
-
----
-
-## Sử dụng
-
-### Keyboard Controls
-
-#### Chọn thuật toán
-
-| Key | Thuật toán | Nhóm |
-|-----|-----------|------|
-| **B** | BFS (Breadth-First Search) | Uninformed |
-| **D** | DFS (Depth-First Search) | Uninformed |
-| **U** | UCS (Uniform-Cost Search) | Uninformed |
-| **L** | DLS (Depth-Limited Search) | Uninformed |
-| **I** | IDS (Iterative Deepening Search) | Uninformed |
-| **G** | Greedy Best-First Search | Informed |
-| **S** | A* Search | Informed |
-| **H** | Hill Climbing | Local Search |
-| **M** | Simulated Annealing | Local Search |
-| **K** | K-Beam Search | Local Search |
-| **E** | Genetic Algorithm | Local Search |
-| **O** | AND-OR Search | Complex Environment |
-| **P** | Partial Observable Search | Complex Environment |
-| **W** | Observations Search | Complex Environment |
-| **T** | Backtracking Search | CSP |
-| **F** | Forward Checking | CSP |
-| **X** | AC-3 (Arc Consistency) | CSP |
-
-#### Điều khiển game
-
-| Key | Chức năng |
-|-----|-----------|
-| **N** | Bước tiếp theo (Next) |
-| **R** | Về bước đầu (Reset step) |
-| **A** | Chế độ tự động (Auto-run) |
-| **SPACE** | Tạo bàn cờ mới |
-| **C** | Xóa bàn AI |
-| **1-9** | Điều chỉnh tốc độ (1=chậm, 9=nhanh) |
-| **0** | Tốc độ cực nhanh |
-| **ESC** | Thoát game |
-| **Click nút** | Xem đồ thị thống kê thuật toán |
-
-### Workflow
-
-1. **Khởi động game** → Bàn target được tạo ngẫu nhiên
-2. **Chọn thuật toán** → Nhấn phím tương ứng (B, D, U, ...)
-3. **Xem kết quả** → Thuật toán chạy và hiển thị path
-4. **Step through** → Nhấn N để xem từng bước
-5. **So sánh** → Chạy nhiều thuật toán và xem history
-6. **Xem đồ thị** → Click nút "XEM ĐỒ THỊ THỐNG KÊ" để so sánh hiệu suất
-7. **Reset** → Nhấn SPACE để tạo bàn mới
-
----
-
-## Đồ Thị Thống Kê
-
-Sau khi chạy một hoặc nhiều thuật toán, bạn có thể xem đồ thị thống kê bằng cách click vào nút **"XEM ĐỒ THỊ THỐNG KÊ"** ở cuối panel bên phải.
-
-### Các loại biểu đồ
-
-#### 1. Biểu đồ so sánh thời gian
-- So sánh thời gian chạy trung bình của các thuật toán
-- Phân loại theo mức độ thành công:
-  - Xanh dương: Tìm thấy mục tiêu (≥80% thành công)
-  - Cam: Tìm một tập hoặc trạng thái gần đích (30-80% thành công)
-  - Đỏ: Không tìm thấy mục tiêu (<30% thành công)
-
-#### 2. Biểu đồ số bước thực hiện
-- Hiển thị số bước min, max, và trung bình
-- So sánh độ dài đường đi của các thuật toán
-
-#### 3. Biểu đồ tỷ lệ thành công
-- Thống kê phần trăm các trạng thái:
-  - Thành công (Success)
-  - Một phần (Partial)
-  - Thất bại (Failed)
-  - Lỗi (Error)
-
-#### 4. Bảng thống kê chi tiết
-- Số lần chạy mỗi thuật toán
-- Tỷ lệ thành công
-- Thời gian trung bình
-- Số bước trung bình
-
-### Cách sử dụng
-
-1. Chạy một hoặc nhiều thuật toán trên cùng một bàn cờ
-2. Xem lịch sử trong panel "LỊCH SỬ THUẬT TOÁN"
-3. Click nút "XEM ĐỒ THỊ THỐNG KÊ"
-4. Cửa sổ đồ thị sẽ hiển thị với 4 biểu đồ
-
-**Lưu ý**: Cần chạy ít nhất một thuật toán trước khi xem đồ thị!
-
----
-
-## Thuật toán
-
-### I. Uninformed Search (Tìm kiếm không thông tin)
-
-#### 1. BFS - Breadth-First Search
-- Đặc điểm: Duyệt theo tầng, sử dụng Queue
-- Độ phức tạp: O(b^d)
-- Tối ưu: Có (với cost đều)
-- Đầy đủ: Có
-
-#### 2. DFS - Depth-First Search
-- Đặc điểm: Duyệt theo chiều sâu, sử dụng Stack
-- Độ phức tạp: O(b^m)
-- Tối ưu: Không
-- Bộ nhớ: Ít hơn BFS
-
-#### 3. UCS - Uniform-Cost Search
-- Đặc điểm: Mở rộng theo chi phí nhỏ nhất
-- Cấu trúc: Priority Queue
-- Tối ưu: Có (với cost dương)
-- Đầy đủ: Có
-
-#### 4. DLS - Depth-Limited Search
-- Đặc điểm: DFS với giới hạn độ sâu
-- Tránh: Lặp vô hạn
-- Tối ưu: Không
-
-#### 5. IDS - Iterative Deepening Search
-- Đặc điểm: Kết hợp ưu điểm BFS và DFS
-- Độ phức tạp: O(b^d)
-- Tối ưu: Có
-- Bộ nhớ: O(bd)
-
-### II. Informed Search (Tìm kiếm có thông tin)
-
-#### 6. Greedy Best-First Search
-- Hàm đánh giá: f(n) = h(n)
-- Đặc điểm: Mở rộng nút gần đích nhất
-- Tối ưu: Không
-- Tốc độ: Nhanh
-
-#### 7. A* Search
-- Hàm đánh giá: f(n) = g(n) + h(n)
-- Đặc điểm: Kết hợp chi phí thực tế và ước lượng
-- Tối ưu: Có (nếu h(n) admissible)
-- Đầy đủ: Có
-
-### III. Local Search (Tìm kiếm cục bộ)
-
-#### 8. Hill Climbing
-- Đặc điểm: Chọn trạng thái láng giềng tốt nhất
-- Vấn đề: Dễ kẹt cực trị cục bộ
-- Bộ nhớ: Rất ít (O(1))
-
-#### 9. Simulated Annealing
-- Đặc điểm: Cho phép move tệ với xác suất giảm dần
-- Tránh: Local minima
-- Temperature: Giảm theo thời gian
-
-#### 10. K-Beam Search
-- Đặc điểm: Giữ lại K nút tốt nhất
-- Tốc độ: Nhanh
-- Tối ưu: Không
-
-#### 11. Genetic Algorithm
-- Đặc điểm: Mô phỏng tiến hóa tự nhiên
-- Operators: Selection, Crossover, Mutation
-- Population: Nhiều thế hệ
-
-### 3. Complex Environment
-Môi trường phức tạp với trạng thái không hoàn toàn quan sát được
-
-#### 12. And-Or Tree Search
-- Môi trường: Không xác định
-- Kế hoạch: Contingency plans
-- Cấu trúc: Cây And/Or
-
-#### 13. Online DFS Agent
-- Đặc điểm: Học trong quá trình explore
-- State: Không biết trước hoàn toàn
-- Real-time: Quyết định tức thời
-
-#### 14. LRTA* (Learning Real-Time A*)
-- Đặc điểm: Cập nhật heuristic khi di chuyển
-- Học: Từ kinh nghiệm
-- Real-time: Hành động nhanh
-
-#### 15. Partial Observable Search
-- Đặc điểm: Quan sát một phần trạng thái
-- Belief States: Tập trạng thái có thể
-- Uncertainty: Xử lý không chắc chắn
-
-#### 14. Observations Search
-- Đặc điểm: Full observations (vs Partial)
-- State: Quan sát đầy đủ
-- BFS/DFS: Trên observation graph
-
-### 4. CSP (Constraint Satisfaction Problem)
-Giải quyết bài toán thỏa mãn ràng buộc
-
-#### 16. Backtracking Search
-- Đặc điểm: Quay lui khi vi phạm ràng buộc
-- Pruning: Cắt nhánh sớm
-- Tối ưu: Có với bài toán CSP
-
-#### 17. AC-3 (Arc Consistency)
-- Đặc điểm: Loại bỏ giá trị không nhất quán
-- Domain Reduction: Thu hẹp miền giá trị
-- Preprocessing: Trước khi backtracking
-
----
 
 ## Cấu trúc dự án
 
 ```
 Game-8Rocks/
-├── Alg/                          # Thư mục thuật toán
-│   ├── __init__.py
-│   ├── utils.py                  # Utilities (tạo mẫu, kiểm tra)
-│   ├── bfs.py                    # Breadth-First Search
-│   ├── dfs.py                    # Depth-First Search
-│   ├── ucs.py                    # Uniform-Cost Search
-│   ├── dls.py                    # Depth-Limited Search
-│   ├── ids.py                    # Iterative Deepening Search
-│   ├── greedy.py                 # Greedy Best-First Search
-│   ├── astar.py                  # A* Search
-│   ├── hill_climbing.py          # Hill Climbing
-│   ├── simulated_annealing.py    # Simulated Annealing
-│   ├── beam_search.py            # K-Beam Search
-│   ├── genetic.py                # Genetic Algorithm
-│   ├── and_or_search.py          # AND-OR Search
-│   ├── partial_observable.py     # Partial Observable Search
-│   ├── observations.py           # Observations Search
-│   ├── backtracking.py           # Backtracking (Stack-based)
-│   ├── forward_tracking.py       # Forward Checking
-│   └── ac3.py                    # AC-3 Algorithm
-│
-├── UI/                           # Thư mục giao diện
-│   ├── __init__.py
-│   ├── render.py                 # Rendering functions
-│   ├── game.py                   # Main game loop
-│   └── chart.py                  # Chart visualization
-│
-├── README.md                     # Documentation
-└── requirements.txt              # Dependencies
-
+├── Alg/                         # Các thuật toán tìm kiếm
+│   ├── bfs.py                  # Breadth First Search
+│   ├── dfs.py                  # Depth First Search
+│   ├── ucs.py                  # Uniform Cost Search
+│   ├── dls.py                  # Depth Limited Search
+│   ├── ids.py                  # Iterative Deepening Search
+│   ├── greedy.py               # Greedy Best-First Search
+│   ├── astar.py                # A* Search
+│   ├── beam_search.py          # Beam Search
+│   ├── hill_climbing.py        # Hill Climbing
+│   ├── simulated_annealing.py  # Simulated Annealing
+│   ├── genetic.py              # Genetic Algorithm
+│   ├── backtracking.py         # Backtracking
+│   ├── forward_tracking.py     # Forward Checking
+│   ├── ac3.py                  # AC3 Algorithm
+│   ├── minimax.py              # Minimax Algorithm
+│   ├── alpha_beta.py           # Alpha-Beta Pruning
+│   ├── and_or_search.py        # AND-OR Search
+│   ├── belief_state.py         # Belief State
+│   ├── partial_observable.py   # Partial Observable
+│   └── observations.py         # Observations
+├── UI/                          # Giao diện người dùng
+├── assets/                      # Hình ảnh, GIF demo
+└── README.md
 ```
+
+## Các thuật toán đã triển khai
+
+### 1. Thuật toán tìm kiếm mù (Uninformed Search)
+
+#### 1.1. BFS (Breadth First Search)
+
+Tìm kiếm theo chiều rộng, duyệt toàn bộ các trạng thái ở mỗi cấp độ trước khi chuyển sang cấp tiếp theo.
+
+**Cách hoạt động:**
+- Sử dụng Queue (FIFO) để lưu các trạng thái cần duyệt
+- Bắt đầu từ trạng thái rỗng `tuple()`, lần lượt thêm quân xe vào từng hàng
+- Với mỗi trạng thái, sinh ra các trạng thái con bằng cách thêm quân xe vào cột chưa sử dụng
+- Dictionary `par` lưu trạng thái cha để truy vết lại đường đi
+- Dừng khi tìm được trạng thái mục tiêu hoặc đã duyệt hết
+
+![BFS Demo](./assets/bfs_demo.gif)
+
+#### 1.2. DFS (Depth First Search)
+
+Tìm kiếm theo chiều sâu, đi sâu vào một nhánh trước khi quay lại thử nhánh khác.
+
+**Cách hoạt động:**
+- Sử dụng Stack (LIFO) thay vì Queue
+- Bắt đầu từ trạng thái rỗng, ưu tiên đi sâu vào một nhánh trước
+- Với mỗi trạng thái, sinh các trạng thái con và đẩy vào stack
+- Kiểm tra cột chưa sử dụng trước khi thêm quân xe mới
+- Dictionary `par` để truy vết đường đi khi tìm được mục tiêu
+- Dừng ngay khi tìm thấy trạng thái mục tiêu
+
+![DFS Demo](./assets/dfs_demo.gif)
+
+#### 1.3. UCS (Uniform Cost Search)
+
+Tìm kiếm theo chi phí đồng đều, ưu tiên mở rộng trạng thái có chi phí thấp nhất.
+
+**Cách hoạt động:**
+- Sử dụng Priority Queue (heap) với chi phí làm khóa sắp xếp
+- Hàm `tinh_chi_phi()` tính chi phí dựa trên:
+  - Chi phí cao (20) nếu cột đã được sử dụng
+  - Chi phí thấp hơn dựa trên số quân còn lại cần đặt
+- Dictionary `cost` lưu chi phí tốt nhất đến mỗi trạng thái
+- Chỉ cập nhật trạng thái nếu tìm được đường đi với chi phí thấp hơn
+- Đảm bảo tìm được đường đi có chi phí tối ưu
+
+![UCS Demo](./assets/ucs_demo.gif)
+
+#### 1.4. DLS (Depth Limited Search)
+
+Tìm kiếm theo chiều sâu có giới hạn, tránh vòng lặp vô hạn của DFS.
+
+**Cách hoạt động:**
+- Giống DFS nhưng giới hạn độ sâu tìm kiếm tối đa
+- Trong bài toán 8 quân xe, độ sâu giới hạn thường là 8 (số hàng)
+- Dừng mở rộng nhánh khi đạt độ sâu giới hạn
+- Tránh được vòng lặp vô hạn nhưng có thể bỏ lỡ nghiệm nếu nằm sâu hơn giới hạn
+
+![DLS Demo](./assets/dls_demo.gif)
+
+#### 1.5. IDS (Iterative Deepening Search)
+
+Kết hợp ưu điểm của BFS và DFS, tăng dần độ sâu tìm kiếm.
+
+**Cách hoạt động:**
+- Thực hiện DLS lặp lại với độ sâu tăng dần (0, 1, 2, ..., n)
+- Với mỗi độ sâu, chạy một lần DLS hoàn chỉnh
+- Dừng khi tìm được nghiệm hoặc đã thử hết các độ sâu có thể
+- Tốn overhead do phải duyệt lại các node ở độ sâu nhỏ nhiều lần
+
+**IDS với DLS:**
+
+![IDS-DLS Demo](./assets/ids_dls_demo.gif)
+
+**IDS với DFS:**
+
+![IDS-DFS Demo](./assets/ids_dfs_demo.gif)
+
+### 2. Thuật toán tìm kiếm có heuristic (Informed Search)
+
+#### 2.1. Greedy Best-First Search
+
+Sử dụng hàm heuristic để đánh giá và chọn trạng thái tốt nhất.
+
+**Cách hoạt động:**
+- Sử dụng Priority Queue sắp xếp theo giá trị heuristic h(n)
+- Hàm `heuristic()` đếm số vị trí khác biệt so với mục tiêu
+- Luôn chọn mở rộng trạng thái có h(n) nhỏ nhất (gần mục tiêu nhất)
+- Không quan tâm đến chi phí đường đi, chỉ tập trung vào khoảng cách đến đích
+- Nhanh nhưng không đảm bảo tìm được nghiệm tối ưu
+
+![Greedy Demo](./assets/greedy_demo.gif)
+
+#### 2.2. A* (A-Star Search)
+
+Kết hợp chi phí đường đi và heuristic để tìm nghiệm tối ưu.
+
+**Cách hoạt động:**
+- Sử dụng Priority Queue với f(n) = g(n) + h(n)
+- g(n): chi phí thực từ điểm bắt đầu (tính bằng `tinh_chi_phi()`)
+- h(n): ước lượng chi phí đến đích (tính bằng `heuristic()`)
+- Dictionary `g_scores` lưu chi phí g tốt nhất đến mỗi trạng thái
+- Chỉ cập nhật trạng thái khi tìm được đường đi có g(n) thấp hơn
+- Đảm bảo tìm được nghiệm tối ưu nếu heuristic admissible
+
+![A-Star Demo](./assets/astar_demo.gif)
 
 ---
 
-## Yêu cầu hệ thống
+### 3. Thuật toán tối ưu hóa (Local Search & Optimization)
 
-### Tối thiểu
-- OS: Windows 10, macOS 10.14+, Linux
-- Python: 3.10+
-- RAM: 4GB
-- Display: 1600x950+
+#### 3.1. Beam Search
 
-### Khuyến nghị
-- Python: 3.13+
-- RAM: 8GB+
-- Display: 1920x1080+
+Giới hạn số lượng trạng thái được lưu trữ ở mỗi cấp độ, chỉ giữ lại k trạng thái tốt nhất.
 
+**Cách hoạt động:**
+- Giống BFS nhưng giới hạn số lượng trạng thái trong queue
+- Ở mỗi cấp độ, chỉ giữ lại k trạng thái có heuristic tốt nhất
+- Tham số k (beam width) quyết định độ rộng tìm kiếm
+- k nhỏ: nhanh nhưng dễ bỏ lỡ nghiệm tốt
+- k lớn: chậm hơn nhưng khả năng tìm nghiệm cao hơn
+
+![Beam Search Demo](./assets/beam_search_demo.gif)
+
+#### 3.2. Hill Climbing
+
+Thuật toán leo đồi, di chuyển đến trạng thái láng giềng tốt nhất.
+
+**Cách hoạt động:**
+- Bắt đầu từ trạng thái ngẫu nhiên
+- Hàm `count_conflicts()` đếm số xung đột (cùng cột hoặc đường chéo)
+- Hàm `get_neighbors()` tạo tất cả láng giềng bằng cách di chuyển từng quân xe
+- Mỗi bước, chọn láng giềng có ít xung đột nhất
+- Dừng khi không còn láng giềng nào tốt hơn (local optimum)
+- Có thể bị kẹt tại cực tiểu địa phương
+
+![Hill Climbing Demo](./assets/hill_climbing_demo.gif)
+
+#### 3.3. Simulated Annealing
+
+Mô phỏng quá trình ủ luyện kim loại, cho phép di chuyển đến trạng thái xấu hơn với xác suất nhất định.
+
+**Cách hoạt động:**
+- Bắt đầu từ trạng thái ngẫu nhiên với nhiệt độ cao (init_temp = 100)
+- Hàm `get_random_neighbor()` tạo láng giềng ngẫu nhiên
+- Chấp nhận láng giềng tốt hơn vô điều kiện
+- Chấp nhận láng giềng xấu hơn với xác suất `exp(-delta/temp)`
+- Nhiệt độ giảm dần theo `temp *= cool_rate` (thường 0.95)
+- Nhiệt độ thấp → ít chấp nhận trạng thái xấu hơn
+- Tránh được local optimum bằng cách "nhảy" ra khỏi hố
+
+![Simulated Annealing Demo](./assets/simulated_annealing_demo.gif)
+
+#### 3.4. Genetic Algorithm
+
+Thuật toán di truyền, mô phỏng quá trình tiến hóa tự nhiên.
+
+**Cách hoạt động:**
+- Tạo quần thể ban đầu (population) gồm nhiều cá thể ngẫu nhiên
+- Mỗi cá thể là một hoán vị của [0,1,2,3,4,5,6,7] (đảm bảo không trùng cột)
+- Hàm `fitness()` đánh giá cá thể = số cột unique (max = 8)
+- **Chọn lọc**: Tournament selection - chọn cá thể tốt nhất từ nhóm ngẫu nhiên
+- **Lai ghép**: Order Crossover (OX) giữ tính permutation, xác suất 0.8
+- **Đột biến**: Swap mutation hoán đổi 2 vị trí ngẫu nhiên, xác suất 0.1
+- Lặp qua nhiều thế hệ (generations) cho đến khi tìm được nghiệm
+
+![Genetic Algorithm Demo](./assets/genetic_demo.gif)
+
+---
+
+### 4. Thuật toán thỏa mãn ràng buộc (Constraint Satisfaction)
+
+#### 4.1. Backtracking
+
+Thuật toán quay lui, thử từng giá trị cho biến và quay lại khi gặp ràng buộc vi phạm.
+
+**Cách hoạt động:**
+- Sử dụng Stack thay vì đệ quy để dễ theo dõi
+- Đặt quân xe lần lượt từ hàng 0 đến hàng 7
+- Hàm `is_safe_backtrack()` kiểm tra xung đột cột với các hàng trước
+- Với mỗi hàng, thử tất cả các cột từ 0 đến 7
+- Nếu cột hợp lệ: đặt quân xe và tiếp tục hàng tiếp theo
+- Nếu không có cột nào hợp lệ: backtrack về hàng trước
+- Stack lưu: `(board_state, row, next_col_to_try)`
+- Trace ghi lại các hành động: TRY_ROW, PLACE, BACKTRACK, SUCCESS
+
+![Backtracking Demo](./assets/backtracking_demo.gif)
+
+#### 4.2. Forward Checking
+
+Mở rộng backtracking, loại bỏ giá trị không hợp lệ từ miền của các biến chưa gán.
+
+**Cách hoạt động:**
+- Tương tự Backtracking nhưng thông minh hơn
+- Sau khi đặt quân xe, cập nhật miền giá trị của các hàng chưa đặt
+- Loại bỏ các cột xung đột khỏi miền của hàng tiếp theo
+- Phát hiện sớm nhánh không có nghiệm (miền rỗng)
+- Giảm số lần backtrack so với backtracking thuần
+- Tăng tốc độ tìm kiếm đáng kể
+
+![Forward Checking Demo](./assets/forward_checking_demo.gif)
+
+#### 4.3. AC3 (Arc Consistency 3)
+
+Thuật toán đảm bảo tính nhất quán cung (arc consistency) cho CSP.
+
+**Cách hoạt động:**
+- Tiền xử lý miền giá trị trước khi tìm kiếm
+- Sử dụng queue chứa các cung (arc) cần kiểm tra
+- Với mỗi cung (Xi, Xj), loại bỏ giá trị từ miền Di không thỏa ràng buộc
+- Nếu miền Di thay đổi, thêm tất cả cung (Xk, Xi) vào queue
+- Lặp cho đến khi queue rỗng hoặc phát hiện miền rỗng
+- Giảm không gian tìm kiếm trước khi áp dụng backtracking
+
+![AC3 Demo](./assets/ac3_demo.gif)
+
+### 5. Thuật toán đối kháng (Adversarial Search)
+
+#### 5.1. Minimax
+
+Thuật toán cho trò chơi đối kháng, tối đa hóa lợi ích của mình và tối thiểu hóa lợi ích của đối thủ.
+
+**Cách hoạt động:**
+- Xây dựng cây trò chơi với 2 người chơi: MAX và MIN
+- MAX tìm cách tối đa hóa điểm số
+- MIN tìm cách tối thiểu hóa điểm số (cản trở MAX)
+- Duyệt đệ quy cây trò chơi đến độ sâu giới hạn
+- Lá cây được đánh giá bằng hàm utility
+- Giá trị node được lan truyền ngược: max cho MAX, min cho MIN
+- Chọn nước đi có giá trị minimax tốt nhất
+
+![Minimax Demo](./assets/minimax_demo.gif)
+
+#### 5.2. Alpha-Beta Pruning
+
+Tối ưu hóa Minimax bằng cách cắt tỉa các nhánh không cần thiết.
+
+**Cách hoạt động:**
+- Cải tiến Minimax bằng cách duy trì 2 giá trị: alpha và beta
+- Alpha: giá trị tốt nhất mà MAX có thể đảm bảo
+- Beta: giá trị tốt nhất mà MIN có thể đảm bảo
+- Cắt tỉa (pruning) khi alpha >= beta
+- Nhánh bị cắt không ảnh hưởng đến kết quả cuối cùng
+- Giảm số node cần duyệt từ O(b^d) xuống O(b^(d/2))
+- Kết quả giống Minimax nhưng nhanh hơn nhiều
+
+![Alpha-Beta Demo](./assets/alpha_beta_demo.gif)
+
+### 6. Thuật toán tìm kiếm trong môi trường không chắc chắn
+
+#### 6.1. AND-OR Search
+
+Tìm kiếm trong không gian bài toán có cấu trúc AND-OR.
+
+**Cách hoạt động:**
+- Mở rộng cho bài toán phân rã thành các bài toán con
+- Node AND: tất cả con phải thành công
+- Node OR: ít nhất một con phải thành công
+- Phù hợp với bài toán có nhiều cách giải quyết
+- Xây dựng cây AND-OR graph thay vì cây thông thường
+- Giải pháp là một sub-graph đáp ứng điều kiện AND-OR
+
+![AND-OR Search Demo](./assets/and_or_search_demo.gif)
+
+#### 6.2. Partial Observable
+
+Tìm kiếm trong môi trường có thể quan sát một phần.
+
+**Cách hoạt động:**
+- Agent không quan sát được toàn bộ trạng thái môi trường
+- Chỉ nhận được quan sát (observation) một phần
+- Phải suy luận trạng thái thực từ quan sát
+- Duy trì belief state dựa trên lịch sử quan sát
+- Mỗi hành động và quan sát cập nhật belief state
+- Kết hợp với belief state để ra quyết định
+
+![Partial Observable Demo](./assets/partial_observable_demo.gif)
+
+#### 6.3. Observations
+
+Xử lý quan sát trong môi trường không đầy đủ thông tin.
+
+**Cách hoạt động:**
+- Module hỗ trợ cho Partial Observable
+- Mô hình hóa sensor model: P(observation | state)
+- Cập nhật belief dựa trên quan sát mới (Bayesian update)
+- Xác định hành động tốt nhất dựa trên belief hiện tại
+- Xử lý nhiễu và không chắc chắn trong quan sát
+- Kết hợp nhiều quan sát để tăng độ tin cậy
+
+![Observations Demo](./assets/observations_demo.gif)
+
+---
+
+## Cách sử dụng
+
+```python
+# Thuật toán tìm kiếm mù
+python -m Alg.bfs
+python -m Alg.dfs
+python -m Alg.ucs
+python -m Alg.dls
+python -m Alg.ids
+
+# Thuật toán tìm kiếm có heuristic
+python -m Alg.greedy
+python -m Alg.astar
+
+# Thuật toán tối ưu hóa (Local Search)
+python -m Alg.beam_search
+python -m Alg.hill_climbing
+python -m Alg.simulated_annealing
+python -m Alg.genetic
+
+# Thuật toán thỏa mãn ràng buộc
+python -m Alg.backtracking
+python -m Alg.forward_tracking
+python -m Alg.ac3
+
+# Thuật toán đối kháng
+python -m Alg.minimax
+python -m Alg.alpha_beta
+
+# Thuật toán môi trường không chắc chắn
+python -m Alg.and_or_search
+python -m Alg.belief_state
+python -m Alg.partial_observable
+python -m Alg.observations
+
+# Chạy tất cả và so sánh
+python generate_charts.py
+```
+
+## Kết luận
+
+### Tổng quan về các nhóm thuật toán
+
+Dự án đã triển khai thành công **20 thuật toán tìm kiếm AI** khác nhau, được phân thành 6 nhóm chính, mỗi nhóm có đặc điểm và ứng dụng riêng biệt.
+
+### Đánh giá các nhóm thuật toán
+
+**1. Thuật toán tìm kiếm mù (Uninformed Search)**
+
+Nhóm thuật toán cơ bản không sử dụng thông tin về mục tiêu:
+- **BFS**: Đảm bảo tìm nghiệm nhưng tốn bộ nhớ do phải lưu trữ nhiều trạng thái
+- **DFS**: Tiết kiệm bộ nhớ và thường nhanh hơn BFS khi nghiệm nằm ở nhánh đầu
+- **UCS**: Phù hợp khi cần tối ưu chi phí đường đi
+- **DLS & IDS**: Kết hợp ưu điểm của BFS và DFS, tránh vòng lặp vô hạn
+
+**Nhận xét**: DFS thường cho hiệu suất tốt nhất trong nhóm này cho bài toán 8 quân xe do cấu trúc bài toán có độ sâu không lớn.
+
+**2. Thuật toán tìm kiếm có heuristic (Informed Search)**
+
+Nhóm thuật toán thông minh sử dụng hàm heuristic:
+- **Greedy**: Rất nhanh nhờ chỉ tập trung vào khoảng cách đến mục tiêu, phù hợp khi heuristic tốt
+- **A***: Cân bằng giữa chi phí thực và ước lượng, đảm bảo nghiệm tối ưu
+
+**Nhận xét**: Greedy thường vượt trội về tốc độ khi heuristic được thiết kế tốt. A* phù hợp khi cần đảm bảo tối ưu.
+
+**3. Thuật toán tối ưu hóa (Local Search & Optimization)**
+
+Nhóm thuật toán giải quyết bài toán tối ưu:
+- **Beam Search**: Giới hạn số trạng thái lưu trữ, cân bằng giữa BFS và Greedy
+- **Hill Climbing**: Đơn giản, nhanh nhưng dễ bị kẹt tại cực trị địa phương
+- **Simulated Annealing**: Khắc phục điểm yếu của Hill Climbing bằng cách chấp nhận trạng thái xấu hơn
+- **Genetic Algorithm**: Mạnh mẽ với bài toán phức tạp, tìm nghiệm toàn cục tốt
+
+**Nhận xét**: Simulated Annealing và Genetic thường cho kết quả tốt hơn Hill Climbing nhờ khả năng thoát khỏi local optimum. Beam Search hiệu quả khi cần cân bằng giữa tốc độ và chất lượng.
+
+**4. Thuật toán thỏa mãn ràng buộc (Constraint Satisfaction)**
+
+Nhóm thuật toán chuyên biệt cho CSP:
+- **Backtracking**: Cơ bản, dễ hiểu, phù hợp với bài toán nhỏ
+- **Forward Checking**: Cải thiện Backtracking bằng cách phát hiện sớm nhánh không khả thi
+- **AC3**: Tiền xử lý hiệu quả, giảm không gian tìm kiếm trước khi backtracking
+
+**Nhận xét**: Forward Checking và AC3 vượt trội hơn Backtracking thuần túy nhờ khả năng loại bỏ sớm các nhánh vô nghĩa.
+
+**5. Thuật toán đối kháng (Adversarial Search)**
+
+Nhóm thuật toán cho trò chơi đối kháng:
+- **Minimax**: Tối ưu cho trò chơi 2 người, đảm bảo chiến lược tốt nhất
+- **Alpha-Beta Pruning**: Tối ưu hóa Minimax, giảm đáng kể số node cần duyệt
+
+**Nhận xét**: Alpha-Beta luôn ưu việt hơn Minimax thuần túy trong mọi trường hợp.
+
+**6. Thuật toán môi trường không chắc chắn**
+
+Nhóm thuật toán xử lý thông tin không đầy đủ:
+- **AND-OR Search**: Phù hợp bài toán có cấu trúc phân rã
+- **Partial Observable**: Thực tế với môi trường không quan sát đầy đủ
+- **Observations**: Hỗ trợ xử lý quan sát với nhiễu
+
+**Nhận xét**: Nhóm này cần thiết cho các ứng dụng thực tế nơi thông tin không hoàn hảo.
+
+### Bài học kinh nghiệm
+
+**1. Về lựa chọn thuật toán:**
+- Không có thuật toán "tốt nhất" cho mọi trường hợp
+- Lựa chọn phụ thuộc vào đặc điểm bài toán và yêu cầu cụ thể
+- Thuật toán có heuristic thường tốt hơn nếu thiết kế heuristic hợp lý
+
+**2. Về thiết kế heuristic:**
+- Heuristic tốt là chìa khóa của thuật toán có thông tin
+- Cần cân bằng giữa tính chính xác và chi phí tính toán
+- Heuristic admissible đảm bảo tính tối ưu cho A*
+
+**3. Về tối ưu hóa:**
+- Sinh trạng thái theo hàng giúp giảm không gian tìm kiếm
+- Phát hiện sớm các nhánh không khả thi quan trọng
+- Pruning và constraint propagation rất hiệu quả
+
+### Khuyến nghị sử dụng
+
+**Nếu cần tốc độ cao:**
+- Ưu tiên: Greedy, DFS
+- Phù hợp: Bài toán cần giải pháp nhanh, không quan trọng tối ưu tuyệt đối
+
+**Nếu cần nghiệm tối ưu:**
+- Ưu tiên: A*, UCS
+- Phù hợp: Bài toán chi phí quan trọng
+
+**Nếu bài toán có ràng buộc phức tạp:**
+- Ưu tiên: Forward Checking, AC3
+- Phù hợp: CSP với nhiều biến và ràng buộc
+
+**Nếu bài toán tối ưu hóa:**
+- Ưu tiên: Genetic Algorithm, Simulated Annealing
+- Phù hợp: Không gian tìm kiếm lớn, nhiều local optimum
+
+**Nếu là trò chơi đối kháng:**
+- Ưu tiên: Alpha-Beta Pruning
+- Phù hợp: Game AI, quyết định trong môi trường cạnh tranh
+
+### Hướng phát triển
+
+**Cải tiến thuật toán:**
+- Kết hợp nhiều thuật toán (hybrid approach)
+- Tối ưu hàm heuristic bằng machine learning
+- Song song hóa các thuật toán cho hiệu năng cao hơn
+
+**Mở rộng bài toán:**
+- Bài toán N quân xe với N bất kỳ
+- Bài toán 8 quân hậu và các biến thể khác
+- Ứng dụng vào các bài toán thực tế phức tạp hơn
+
+**Cải thiện trực quan hóa:**
+- Thêm animation chi tiết cho từng bước
+- So sánh real-time nhiều thuật toán
+- Dashboard phân tích hiệu suất
+
+### Kết luận cuối cùng
+
+Dự án đã thành công trong việc triển khai và so sánh toàn diện các thuật toán tìm kiếm AI cổ điển. Mỗi thuật toán có điểm mạnh riêng và phù hợp với từng loại bài toán cụ thể. Việc hiểu rõ đặc điểm và cách hoạt động của từng thuật toán giúp lựa chọn giải pháp tối ưu cho từng tình huống thực tế.
+
+Bài toán 8 quân xe tuy đơn giản nhưng là nền tảng tốt để nghiên cứu và so sánh các kỹ thuật tìm kiếm, từ đó áp dụng vào các bài toán phức tạp hơn trong thực tế.
+
+## Tác giả
+
+**Sinh viên thực hiện:** [Nguyễn Lê Đức Tuệ]  
+**MSSV:** [23110165]  
+**Lớp:** [05]  
+**Giảng viên hướng dẫn:** TS. Phan Thị Huyền Trang
+
+## Tài liệu tham khảo
+
+1. Russell, S., & Norvig, P. (2020). *Artificial Intelligence: A Modern Approach*
+2. Bài giảng môn Trí tuệ nhân tạo - TS. Phan Thị Huyền Trang
+
+## License
+
+MIT License

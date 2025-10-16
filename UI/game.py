@@ -23,6 +23,8 @@ from Alg.backtracking import backtracking_target
 from Alg.forward_tracking import forward_tracking_target
 from Alg.observations import observations_target
 from Alg.ac3 import ac3_target
+from Alg.minimax import minimax_target
+from Alg.alpha_beta import alpha_beta_target
 from Alg.utils import tao_mau, n
 from UI.render import *
 from UI.render import rong, cao, sz, le, nen, den
@@ -214,6 +216,16 @@ def main():
                 elif sk.key==pygame.K_w:
                     mode = "Observations"
                     path, history = run_algorithm_with_tracking(observations_target, ban_mau, "Observations", history, current_board_hash)
+                    step = 0
+                    ban_ai = path[0].copy() if path else [None]*n
+                elif sk.key==pygame.K_v:
+                    mode = "Minimax"
+                    path, history = run_algorithm_with_tracking(minimax_target, ban_mau, "Minimax", history, current_board_hash)
+                    step = 0
+                    ban_ai = path[0].copy() if path else [None]*n
+                elif sk.key==pygame.K_z:
+                    mode = "Alpha-Beta"
+                    path, history = run_algorithm_with_tracking(alpha_beta_target, ban_mau, "Alpha-Beta", history, current_board_hash)
                     step = 0
                     ban_ai = path[0].copy() if path else [None]*n
                 elif sk.key==pygame.K_n:

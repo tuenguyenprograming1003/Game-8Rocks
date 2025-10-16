@@ -203,8 +203,14 @@ def render_game_info(mh, font_nho, tb, trai, phai, cao, le, ban_ai, path, mode, 
         ("X", "AC-3 (Arc Consistency)")
     ], xanh_la)
     
-    # Điều khiển game
     y_pos2 += 130
+    render_algorithm_group(mh, font_nho, col2_x, y_pos2, col_width, "VI. ADVERSARIAL SEARCH", [
+        ("V", "Minimax Decision"),
+        ("Z", "Alpha-Beta Pruning")
+    ], do)
+    
+    # Điều khiển game
+    y_pos2 += 85
     render_control_section(mh, font_nho, col2_x, y_pos2, "ĐIỀU KHIỂN GAME:", [
         "N - Bước tiếp theo",
         "R - Về bước đầu", 
