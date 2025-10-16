@@ -479,6 +479,8 @@ Giao diện game cung cấp các nút điều khiển để tương tác với t
 
 ## Phân tích biểu đồ
 
+![Minh họa biểu đồ tổng hợp](./assets/bieudo.gif)
+
 ### Sinh biểu đồ so sánh
 
 ```bash
@@ -545,8 +547,6 @@ python generate_charts.py
 - Xanh dương: Uninformed Search
 - Xanh lá: Informed Search
 - Cam: Local Search & Optimization
-- Đỏ: Constraint Satisfaction
-- Tím: Adversarial Search
 - Nâu: Uncertainty
 
 **Cột càng thấp → Thuật toán càng tốt** (trừ success rate - càng cao càng tốt)
