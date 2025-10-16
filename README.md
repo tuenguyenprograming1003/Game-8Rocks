@@ -72,7 +72,7 @@ Tìm kiếm theo chiều rộng, duyệt toàn bộ các trạng thái ở mỗi
 - Dictionary `par` lưu trạng thái cha để truy vết lại đường đi
 - Dừng khi tìm được trạng thái mục tiêu hoặc đã duyệt hết
 
-![BFS Demo](./assets/bfs_demo.gif)
+![BFS Demo](./assets/bfs.gif)
 
 #### 1.2. DFS (Depth First Search)
 
@@ -86,7 +86,7 @@ Tìm kiếm theo chiều sâu, đi sâu vào một nhánh trước khi quay lạ
 - Dictionary `par` để truy vết đường đi khi tìm được mục tiêu
 - Dừng ngay khi tìm thấy trạng thái mục tiêu
 
-![DFS Demo](./assets/dfs_demo.gif)
+![DFS Demo](./assets/dfs.gif)
 
 #### 1.3. UCS (Uniform Cost Search)
 
@@ -101,7 +101,7 @@ Tìm kiếm theo chi phí đồng đều, ưu tiên mở rộng trạng thái c�
 - Chỉ cập nhật trạng thái nếu tìm được đường đi với chi phí thấp hơn
 - Đảm bảo tìm được đường đi có chi phí tối ưu
 
-![UCS Demo](./assets/ucs_demo.gif)
+![UCS Demo](./assets/ucs.gif)
 
 #### 1.4. DLS (Depth Limited Search)
 
@@ -113,7 +113,7 @@ Tìm kiếm theo chiều sâu có giới hạn, tránh vòng lặp vô hạn c�
 - Dừng mở rộng nhánh khi đạt độ sâu giới hạn
 - Tránh được vòng lặp vô hạn nhưng có thể bỏ lỡ nghiệm nếu nằm sâu hơn giới hạn
 
-![DLS Demo](./assets/dls_demo.gif)
+![DLS Demo](./assets/dls.gif)
 
 #### 1.5. IDS (Iterative Deepening Search)
 
@@ -127,11 +127,11 @@ Kết hợp ưu điểm của BFS và DFS, tăng dần độ sâu tìm kiếm.
 
 **IDS với DLS:**
 
-![IDS-DLS Demo](./assets/ids_dls_demo.gif)
+![IDS-DLS Demo](./assets/ids.gif)
 
 **IDS với DFS:**
 
-![IDS-DFS Demo](./assets/ids_dfs_demo.gif)
+![IDS-DFS Demo](./assets/ids.gif)
 
 ### 2. Thuật toán tìm kiếm có heuristic (Informed Search)
 
@@ -146,7 +146,7 @@ Sử dụng hàm heuristic để đánh giá và chọn trạng thái tốt nh�
 - Không quan tâm đến chi phí đường đi, chỉ tập trung vào khoảng cách đến đích
 - Nhanh nhưng không đảm bảo tìm được nghiệm tối ưu
 
-![Greedy Demo](./assets/greedy_demo.gif)
+![Greedy Demo](./assets/greedy.gif)
 
 #### 2.2. A* (A-Star Search)
 
@@ -160,7 +160,7 @@ Kết hợp chi phí đường đi và heuristic để tìm nghiệm tối ưu.
 - Chỉ cập nhật trạng thái khi tìm được đường đi có g(n) thấp hơn
 - Đảm bảo tìm được nghiệm tối ưu nếu heuristic admissible
 
-![A-Star Demo](./assets/astar_demo.gif)
+![A-Star Demo](./assets/A*.gif)
 
 ---
 
@@ -177,7 +177,7 @@ Giới hạn số lượng trạng thái được lưu trữ ở mỗi cấp đ�
 - k nhỏ: nhanh nhưng dễ bỏ lỡ nghiệm tốt
 - k lớn: chậm hơn nhưng khả năng tìm nghiệm cao hơn
 
-![Beam Search Demo](./assets/beam_search_demo.gif)
+![Beam Search Demo](./assets/beam_search.gif)
 
 #### 3.2. Hill Climbing
 
@@ -191,7 +191,7 @@ Thuật toán leo đồi, di chuyển đến trạng thái láng giềng tốt n
 - Dừng khi không còn láng giềng nào tốt hơn (local optimum)
 - Có thể bị kẹt tại cực tiểu địa phương
 
-![Hill Climbing Demo](./assets/hill_climbing_demo.gif)
+![Hill Climbing Demo](./assets/Hill_climbing.gif)
 
 #### 3.3. Simulated Annealing
 
@@ -206,7 +206,7 @@ Mô phỏng quá trình ủ luyện kim loại, cho phép di chuyển đến tr�
 - Nhiệt độ thấp → ít chấp nhận trạng thái xấu hơn
 - Tránh được local optimum bằng cách "nhảy" ra khỏi hố
 
-![Simulated Annealing Demo](./assets/simulated_annealing_demo.gif)
+![Simulated Annealing Demo](./assets/simulated_annealing.gif)
 
 #### 3.4. Genetic Algorithm
 
@@ -221,7 +221,7 @@ Thuật toán di truyền, mô phỏng quá trình tiến hóa tự nhiên.
 - **Đột biến**: Swap mutation hoán đổi 2 vị trí ngẫu nhiên, xác suất 0.1
 - Lặp qua nhiều thế hệ (generations) cho đến khi tìm được nghiệm
 
-![Genetic Algorithm Demo](./assets/genetic_demo.gif)
+![Genetic Algorithm Demo](./assets/genetic.gif)
 
 ---
 
@@ -241,7 +241,7 @@ Thuật toán quay lui, thử từng giá trị cho biến và quay lại khi g�
 - Stack lưu: `(board_state, row, next_col_to_try)`
 - Trace ghi lại các hành động: TRY_ROW, PLACE, BACKTRACK, SUCCESS
 
-![Backtracking Demo](./assets/backtracking_demo.gif)
+![Backtracking Demo](./assets/backtracking.gif)
 
 #### 4.2. Forward Checking
 
@@ -255,7 +255,7 @@ Mở rộng backtracking, loại bỏ giá trị không hợp lệ từ miền c
 - Giảm số lần backtrack so với backtracking thuần
 - Tăng tốc độ tìm kiếm đáng kể
 
-![Forward Checking Demo](./assets/forward_checking_demo.gif)
+![Forward Checking Demo](./assets/forward_tracking.gif)
 
 #### 4.3. AC3 (Arc Consistency 3)
 
@@ -269,7 +269,7 @@ Thuật toán đảm bảo tính nhất quán cung (arc consistency) cho CSP.
 - Lặp cho đến khi queue rỗng hoặc phát hiện miền rỗng
 - Giảm không gian tìm kiếm trước khi áp dụng backtracking
 
-![AC3 Demo](./assets/ac3_demo.gif)
+![AC3 Demo](./assets/ac3.gif)
 
 ### 5. Thuật toán đối kháng (Adversarial Search)
 
@@ -286,7 +286,7 @@ Thuật toán cho trò chơi đối kháng, tối đa hóa lợi ích của mìn
 - Giá trị node được lan truyền ngược: max cho MAX, min cho MIN
 - Chọn nước đi có giá trị minimax tốt nhất
 
-![Minimax Demo](./assets/minimax_demo.gif)
+![Minimax Demo](./assets/minimax.gif)
 
 #### 5.2. Alpha-Beta Pruning
 
@@ -301,7 +301,7 @@ Tối ưu hóa Minimax bằng cách cắt tỉa các nhánh không cần thiết
 - Giảm số node cần duyệt từ O(b^d) xuống O(b^(d/2))
 - Kết quả giống Minimax nhưng nhanh hơn nhiều
 
-![Alpha-Beta Demo](./assets/alpha_beta_demo.gif)
+![Alpha-Beta Demo](./assets/alpha_beta.gif)
 
 ### 6. Thuật toán tìm kiếm trong môi trường không chắc chắn
 
@@ -317,7 +317,7 @@ Tìm kiếm trong không gian bài toán có cấu trúc AND-OR.
 - Xây dựng cây AND-OR graph thay vì cây thông thường
 - Giải pháp là một sub-graph đáp ứng điều kiện AND-OR
 
-![AND-OR Search Demo](./assets/and_or_search_demo.gif)
+![AND-OR Search Demo](./assets/and_or_search.gif)
 
 #### 6.2. Partial Observable
 
@@ -331,7 +331,7 @@ Tìm kiếm trong môi trường có thể quan sát một phần.
 - Mỗi hành động và quan sát cập nhật belief state
 - Kết hợp với belief state để ra quyết định
 
-![Partial Observable Demo](./assets/partial_observable_demo.gif)
+![Partial Observable Demo](./assets/partial_observable.gif)
 
 #### 6.3. Observations
 
@@ -345,7 +345,7 @@ Xử lý quan sát trong môi trường không đầy đủ thông tin.
 - Xử lý nhiễu và không chắc chắn trong quan sát
 - Kết hợp nhiều quan sát để tăng độ tin cậy
 
-![Observations Demo](./assets/observations_demo.gif)
+![Observations Demo](./assets/observations.gif)
 
 ---
 
