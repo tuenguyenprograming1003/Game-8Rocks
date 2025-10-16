@@ -388,6 +388,176 @@ python -m Alg.observations
 python generate_charts.py
 ```
 
+## Giao diện người dùng
+
+### Chạy ứng dụng
+
+```bash
+python UI/game.py
+```
+
+### Hướng dẫn sử dụng các nút trong giao diện
+
+Giao diện game cung cấp các nút điều khiển để tương tác với thuật toán:
+
+#### **1. Dropdown - Chọn thuật toán**
+- **Vị trí**: Góc trên bên trái
+- **Chức năng**: Cho phép lựa chọn thuật toán tìm kiếm muốn chạy
+- **Các lựa chọn**: 
+  - BFS, DFS, UCS, DLS, IDS (Uninformed Search)
+  - Greedy, A* (Informed Search)
+  - Beam Search, Hill Climbing, Simulated Annealing, Genetic (Local Search)
+  - Backtracking, Forward Checking, AC3 (CSP)
+  - Minimax, Alpha-Beta (Adversarial Search)
+  - AND-OR Search, Partial Observable, Observations (Uncertainty)
+
+#### **2. Nút "Bắt Đầu" (Start)**
+- **Chức năng**: Khởi chạy thuật toán đã chọn
+- **Hành động**: 
+  - Tạo bàn cờ mục tiêu ngẫu nhiên
+  - Chạy thuật toán tìm kiếm từ trạng thái rỗng
+  - Bắt đầu hiển thị từng bước giải quyết
+
+#### **3. Nút "Tiếp Theo" (Next)**
+- **Chức năng**: Xem bước tiếp theo trong quá trình giải quyết
+- **Hành động**: 
+  - Di chuyển đến trạng thái kế tiếp trong đường đi tìm được
+  - Cập nhật hiển thị bàn cờ với vị trí quân xe mới
+  - Cho phép theo dõi từng bước một cách chi tiết
+
+#### **4. Nút "Quay Lại" (Previous)**
+- **Chức năng**: Xem lại bước trước đó
+- **Hành động**: 
+  - Quay về trạng thái trước đó trong đường đi
+  - Giúp phân tích và so sánh các bước
+  - Hữu ích cho việc hiểu rõ logic thuật toán
+
+#### **5. Nút "Tự Động" (Auto)**
+- **Chức năng**: Chạy tự động toàn bộ quá trình
+- **Hành động**: 
+  - Tự động chuyển qua các bước liên tục
+  - Có thể điều chỉnh tốc độ hiển thị
+  - Dừng khi đạt trạng thái cuối cùng
+
+#### **6. Nút "Dừng" (Stop)**
+- **Chức năng**: Dừng chế độ tự động
+- **Hành động**: 
+  - Tạm dừng việc chuyển bước tự động
+  - Cho phép xem chi tiết trạng thái hiện tại
+  - Có thể tiếp tục bằng nút "Tiếp Theo" hoặc "Tự Động"
+
+#### **7. Nút "Đặt Lại" (Reset)**
+- **Chức năng**: Khởi động lại từ đầu
+- **Hành động**: 
+  - Xóa bỏ kết quả hiện tại
+  - Đưa về trạng thái ban đầu
+  - Sẵn sàng chạy thuật toán mới
+
+#### **8. Nút "Biểu Đồ" (Chart)**
+- **Chức năng**: Hiển thị biểu đồ so sánh
+- **Hành động**: 
+  - Mở cửa sổ biểu đồ phân tích hiệu suất
+  - Hiển thị thống kê các thuật toán đã chạy
+  - So sánh số bước, thời gian, bộ nhớ sử dụng
+
+### Hiển thị thông tin
+
+**Bàn cờ mục tiêu (Goal Board):**
+- Hiển thị ở góc trên bên phải
+- Thể hiện vị trí mục tiêu cần đạt được
+- Màu xanh dương để phân biệt với bàn hiện tại
+
+**Bàn cờ hiện tại (Current Board):**
+- Hiển thị ở trung tâm màn hình
+- Cập nhật theo từng bước của thuật toán
+- Màu xanh lá cây cho quân xe đã đặt đúng vị trí
+
+**Thông tin trạng thái:**
+- Hiển thị số bước hiện tại / tổng số bước
+- Tên thuật toán đang chạy
+- Trạng thái: "Đang chạy", "Hoàn thành", "Đang tạm dừng"
+
+## Phân tích biểu đồ
+
+### Sinh biểu đồ so sánh
+
+```bash
+python generate_charts.py
+```
+
+### Các loại biểu đồ
+
+#### **1. Biểu đồ số bước (Steps Comparison)**
+- **Mục đích**: So sánh số bước cần thiết để tìm ra nghiệm
+- **Ý nghĩa**: 
+  - Số bước thấp → Thuật toán hiệu quả, tìm đường đi ngắn
+  - Số bước cao → Thuật toán khám phá nhiều trạng thái
+- **Phân tích**:
+  - Thuật toán có heuristic (Greedy, A*) thường có ít bước hơn
+  - Local search có thể có nhiều bước do phải khám phá láng giềng
+  - CSP thường ít bước nhờ constraint propagation
+
+#### **2. Biểu đồ thời gian thực thi (Execution Time)**
+- **Mục đích**: Đo lường tốc độ thực thi của thuật toán
+- **Ý nghĩa**:
+  - Thời gian thấp → Thuật toán nhanh, phù hợp real-time
+  - Thời gian cao → Thuật toán phức tạp, cần tối ưu
+- **Phân tích**:
+  - DFS thường nhanh nhất trong uninformed search
+  - Greedy nhanh hơn A* do không tính chi phí đường đi
+  - Genetic và Simulated Annealing tốn thời gian do nhiều iteration
+
+#### **3. Biểu đồ bộ nhớ sử dụng (Memory Usage)**
+- **Mục đích**: Đánh giá mức độ tiêu thụ bộ nhớ
+- **Ý nghĩa**:
+  - Bộ nhớ thấp → Hiệu quả với tài nguyên hạn chế
+  - Bộ nhớ cao → Cần nhiều RAM, không phù hợp thiết bị yếu
+- **Phân tích**:
+  - BFS tốn bộ nhớ nhất do lưu nhiều trạng thái
+  - DFS tiết kiệm bộ nhớ nhờ đi sâu trước
+  - Beam Search cân bằng nhờ giới hạn beam width
+
+#### **4. Biểu đồ tỷ lệ thành công (Success Rate)**
+- **Mục đích**: Đo khả năng tìm được nghiệm
+- **Ý nghĩa**:
+  - 100% → Luôn tìm được nghiệm
+  - < 100% → Có thể bị kẹt (local optimum) hoặc timeout
+- **Phân tích**:
+  - BFS, DFS, A* luôn tìm được nghiệm (complete)
+  - Hill Climbing có thể bị kẹt local optimum
+  - Genetic và Simulated Annealing có tỷ lệ cao nhờ tính ngẫu nhiên
+
+#### **5. Biểu đồ so sánh tổng hợp (Overall Comparison)**
+- **Mục đích**: Đánh giá tổng quan hiệu suất
+- **Các chỉ số**:
+  - **Điểm hiệu suất** = f(steps, time, memory)
+  - **Xếp hạng** dựa trên điểm tổng hợp
+- **Phân tích**:
+  - Top performers: Greedy, DFS, Forward Checking
+  - Balanced: A*, UCS, Backtracking
+  - Trade-off: BFS (chậm nhưng tối ưu), Genetic (chậm nhưng mạnh)
+
+### Cách đọc biểu đồ
+
+**Trục X (Horizontal):** Tên các thuật toán
+**Trục Y (Vertical):** Giá trị chỉ số (steps, time, memory)
+**Màu sắc:** Phân biệt nhóm thuật toán
+- Xanh dương: Uninformed Search
+- Xanh lá: Informed Search
+- Cam: Local Search & Optimization
+- Đỏ: Constraint Satisfaction
+- Tím: Adversarial Search
+- Nâu: Uncertainty
+
+**Cột càng thấp → Thuật toán càng tốt** (trừ success rate - càng cao càng tốt)
+
+### Ứng dụng phân tích
+
+1. **Chọn thuật toán phù hợp**: Dựa vào yêu cầu về tốc độ, bộ nhớ, độ chính xác
+2. **Tối ưu hóa tham số**: Điều chỉnh beam width, population size, temperature
+3. **Nghiên cứu học thuật**: So sánh lý thuyết với thực nghiệm
+4. **Báo cáo kết quả**: Trực quan hóa cho presentation và paper
+
 ## Kết luận
 
 ### Tổng quan về các nhóm thuật toán
