@@ -54,14 +54,14 @@ def ve_ban(mh, td, ban=None, tdg=None, kt=False):
             mau = toi if (r+c)%2 else sang
             pygame.draw.rect(mh,mau,o)
             pygame.draw.rect(mh,den,o,1)
-            if ban is not None and ban[r] is not None and ban[r]==c:
+            if ban is not None and r < len(ban) and ban[r] is not None and ban[r]==c:
                 q = font_lon.render("X",True,xanh)
                 q_rect = q.get_rect(center=o.center)
                 mh.blit(q,q_rect)
     if kt and ban is not None:
-        for r in range(n):
+        for r in range(min(n, len(ban))):
             if ban[r] is not None:
-                for r2 in range(r+1,n):
+                for r2 in range(r+1, min(n, len(ban))):
                     if ban[r2] is not None and ban[r2]==ban[r]:
                         cx = x0+ban[r]*sz+sz//2
                         cy = y0+r*sz+sz//2
@@ -221,7 +221,7 @@ def render_game_info(mh, font_nho, tb, trai, phai, cao, le, ban_ai, path, mode, 
     ], col_width)
     
     # Thông tin trạng thái - full width ở dưới cùng (di chuyển lên trên)
-    status_y = cao - 380  # Tăng từ 280 lên 340 để di chuyển lên trên
+    status_y = cao - 340  # Tăng từ 280 lên 340 để di chuyển lên trên
     render_status_info(mh, font_nho, panel_x + 20, status_y, mode, step, path, ban_ai, panel_w - 40)
     
     # History section - ngay dưới status

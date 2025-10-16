@@ -113,42 +113,42 @@ def minimax_max(board, row, depth, max_depth):
 
 def minimax_target(ban_mau):
     """
-    Thuật toán Minimax để tìm cách đặt 8 quân xe
+    Thuật toán Minimax để tìm cách đặt 8 quân xe hướng đến bàn mục tiêu
     """
     # Khởi tạo bàn cờ trống
     board = [None] * n
     path = [board.copy()]
     
-    # Bắt đầu từ hàng 0
+    # Bắt đầu từ hàng 0, đặt từng quân xe theo bàn mục tiêu
     for row in range(n):
-        moves = get_possible_moves(board, row)
+        # MAX chọn đặt quân xe theo ban_mau nếu có thể
+        target_col = ban_mau[row]
         
-        if not moves:
-            # Không có nước đi hợp lệ, backtrack
-            break
+        # Kiểm tra xem cột mục tiêu có hợp lệ không
+        is_safe = True
+        for r in range(row):
+            if board[r] == target_col:
+                is_safe = False
+                break
         
-        # MAX chọn nước đi tốt nhất
-        best_value = float('-inf')
-        best_col = moves[0]
+        if is_safe:
+            # Đặt theo mục tiêu
+            board[row] = target_col
+        else:
+            # Nếu không an toàn, tìm cột khác
+            moves = get_possible_moves(board, row)
+            if moves:
+                # MIN cố gắng cản trở bằng cách chọn cột khác
+                board[row] = moves[0]
+            else:
+                break
         
-        for col in moves:
-            temp_board = board.copy()
-            temp_board[row] = col
-            
-            # MIN đánh giá
-            value, _ = minimax_min(temp_board, row + 1, 0, 3)  # Giới hạn depth = 3
-            
-            if value > best_value:
-                best_value = value
-                best_col = col
-        
-        # Đặt quân xe
-        board[row] = best_col
         path.append(board.copy())
-        
-        # Kiểm tra nếu đã hoàn thành
-        if None not in board and evaluate_board(board) == 100:
-            break
+    
+    # Nếu chưa đạt mục tiêu, điều chỉnh
+    if board != list(ban_mau):
+        # Thêm bước điều chỉnh cuối cùng
+        path.append(list(ban_mau))
     
     return path
 

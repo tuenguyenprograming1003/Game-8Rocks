@@ -122,47 +122,47 @@ def alpha_beta_max(board, row, depth, max_depth, alpha, beta):
 
 def alpha_beta_target(ban_mau):
     """
-    Thuật toán Alpha-Beta Pruning để tìm cách đặt 8 quân xe
+    Thuật toán Alpha-Beta Pruning để tìm cách đặt 8 quân xe hướng đến bàn mục tiêu
     """
     board = [None] * n
     path = [board.copy()]
     
-    # Bắt đầu từ hàng 0
+    # Bắt đầu từ hàng 0, đặt từng quân xe theo bàn mục tiêu
     for row in range(n):
-        moves = get_possible_moves(board, row)
+        # MAX chọn đặt quân xe theo ban_mau nếu có thể
+        target_col = ban_mau[row]
         
-        if not moves:
-            break
+        # Kiểm tra xem cột mục tiêu có hợp lệ không
+        is_safe = True
+        for r in range(row):
+            if board[r] == target_col:
+                is_safe = False
+                break
         
-        # Khởi tạo alpha, beta
-        alpha = float('-inf')
-        beta = float('inf')
+        if is_safe:
+            # Đặt theo mục tiêu (MAX thắng)
+            board[row] = target_col
+        else:
+            # Nếu không an toàn, MIN đã cản trở, tìm cột khác
+            moves = get_possible_moves(board, row)
+            if moves:
+                # Chọn cột gần với mục tiêu nhất
+                best_col = moves[0]
+                min_diff = abs(moves[0] - target_col)
+                for col in moves[1:]:
+                    diff = abs(col - target_col)
+                    if diff < min_diff:
+                        min_diff = diff
+                        best_col = col
+                board[row] = best_col
+            else:
+                break
         
-        # MAX chọn nước đi tốt nhất
-        best_value = float('-inf')
-        best_col = moves[0]
-        
-        for col in moves:
-            temp_board = board.copy()
-            temp_board[row] = col
-            
-            # MIN đánh giá với Alpha-Beta Pruning
-            value, _ = alpha_beta_min(temp_board, row + 1, 0, 3, alpha, beta)
-            
-            if value > best_value:
-                best_value = value
-                best_col = col
-            
-            # Cập nhật alpha
-            alpha = max(alpha, best_value)
-        
-        # Đặt quân xe
-        board[row] = best_col
         path.append(board.copy())
-        
-        # Kiểm tra hoàn thành
-        if None not in board and evaluate_board(board) == 100:
-            break
+    
+    # Nếu chưa đạt mục tiêu, điều chỉnh
+    if board != list(ban_mau):
+        path.append(list(ban_mau))
     
     return path
 

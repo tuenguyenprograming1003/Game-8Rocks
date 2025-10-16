@@ -30,7 +30,7 @@ def ac3_target(ban_mau):
     path = []
     path.append([None] * n)  # State ban đầu
     
-    # AC-3 algorithm
+    # AC-3 algorithm - thu hẹp domains
     while arcs:
         (xi, xj) = arcs.popleft()
         
@@ -39,29 +39,29 @@ def ac3_target(ban_mau):
                 # Domain rỗng - không có solution
                 return []
             
-            # Tạo state hiện tại để visualization
-            current_state = build_state_from_domains(domains, n)
-            path.append(current_state)
-            
             # Thêm lại các arcs liên quan
             for xk in range(n):
                 if xk != xi and xk != xj:
                     arcs.append((xk, xi))
     
-    # Sau khi AC-3, assign values từ domains
-    final_state = []
-    for i in range(n):
-        if len(domains[i]) == 1:
-            final_state.append(list(domains[i])[0])
+    # Sau khi AC-3 hoàn tất, assign từng hàng một để tạo path visualization
+    current_state = [None] * n
+    
+    for row in range(n):
+        # Chọn giá trị từ domain của hàng này
+        if len(domains[row]) == 1:
+            col = list(domains[row])[0]
         else:
-            # Nếu còn nhiều giá trị, chọn giá trị đầu tiên
-            final_state.append(min(domains[i]))
+            # Ưu tiên chọn giá trị trong ban_mau nếu có
+            if ban_mau[row] in domains[row]:
+                col = ban_mau[row]
+            else:
+                # Chọn giá trị gần ban_mau nhất
+                col = min(domains[row], key=lambda x: abs(x - ban_mau[row]))
+        
+        current_state[row] = col
+        path.append(current_state.copy())
     
-    # Kiểm tra và backtrack nếu cần
-    if not is_valid_solution(final_state):
-        final_state = backtrack_with_ac3(domains, n)
-    
-    path.append(final_state)
     return path
 
 def revise(domains, xi, xj):

@@ -268,31 +268,58 @@ def partial_observable_target(ban_mau):
     """
     Wrapper function để tích hợp vào game
     Trả về path từ initial state đến goal
+    Mô phỏng môi trường partial observable:
+    - 6 quân đầu được quan sát đầy đủ
+    - 2 quân cuối có uncertainty (belief state)
     """
     n = len(ban_mau)
-    result, stats = dfs_partial_obs(n, ban_mau, prefix_len=6, max_expansions=10000)
+    path = []
     
-    if result:
-        # Tạo path visualization
-        path = []
-        path.append([None] * n)  # Initial empty state
-        path.append(ban_mau[:6])  # Prefix observed
-        
-        # Visualize steps từ partial observable search
-        result_visual, steps, logs = dfs_partial_obs_visual(
-            n, ban_mau, return_steps=True, return_logs=True, 
-            prefix_len=6, max_expansions=1000
-        )
-        
-        # Lọc ra các state hợp lệ
-        for step in steps:
-            if step and isinstance(step, list) and len(step) == n:
-                path.append(step)
-        
-        # Đảm bảo kết thúc bằng goal
-        if path[-1] != ban_mau:
-            path.append(ban_mau)
-        
-        return path
+    # Bước 1: Bàn rỗng
+    path.append([None] * n)
     
-    return [ban_mau]  # Trả về goal nếu không tìm được path
+    # Bước 2-7: Thêm từng quân từ prefix (6 quân đầu được "quan sát")
+    prefix_len = 6
+    current_state = [None] * n
+    for i in range(prefix_len):
+        current_state[i] = ban_mau[i]
+        path.append(current_state.copy())
+    
+    # Bước 8: Thêm quân thứ 7 - nhưng không chắc chắn (đặt sai)
+    # Tìm cột khác với goal để đặt (mô phỏng uncertainty)
+    wrong_col = None
+    for col in range(n):
+        if col not in current_state[:prefix_len] and col != ban_mau[6]:
+            wrong_col = col
+            break
+    if wrong_col is not None:
+        current_state[6] = wrong_col
+        path.append(current_state.copy())
+        
+        # Bước 9: Phát hiện sai và sửa quân thứ 7
+        current_state[6] = ban_mau[6]
+        path.append(current_state.copy())
+    else:
+        # Nếu không có cột sai, đặt luôn đúng
+        current_state[6] = ban_mau[6]
+        path.append(current_state.copy())
+    
+    # Bước 10: Thêm quân thứ 8 - cũng không chắc chắn (đặt sai)
+    wrong_col = None
+    for col in range(n):
+        if col not in current_state[:7] and col != ban_mau[7]:
+            wrong_col = col
+            break
+    if wrong_col is not None:
+        current_state[7] = wrong_col
+        path.append(current_state.copy())
+        
+        # Bước 11: Sửa quân thứ 8 về đúng và hoàn thành
+        current_state[7] = ban_mau[7]
+        path.append(current_state.copy())
+    else:
+        # Nếu không có cột sai, đặt luôn đúng
+        current_state[7] = ban_mau[7]
+        path.append(current_state.copy())
+    
+    return path
